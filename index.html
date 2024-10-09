@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Красивый сайт с боковой навигацией</title>
+
+    <!-- Подключение шрифта Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+    <!-- Подключение библиотеки иконок FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* Основные стили */
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif; /* Использование основного шрифта */
+            background-color: #15022b;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 36px; /* Увеличенный размер шрифта */
+        }
+
+        /* Боковое меню */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px; /* Уменьшенная ширина меню */
+            height: 100%; /* Высота меню - 100% */
+            background-color: #3d3838;
+            padding: 5px; /* Уменьшенный отступ */
+            box-shadow: 5px 0 30px rgba(255, 255, 255, 0.829);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Выравнивание по верхнему краю */
+        }
+
+        .logo {
+            color: #ffffff; /* Цвет лого */
+            font-size: 30px; /* Уменьшенный размер лого */
+            text-align: center; /* Центрирование лого */
+            margin: 0 auto 300px auto; /* Центрирование с одинаковыми отступами */
+            font-weight: bold; /* Жирный шрифт */
+            position: relative; /* Позиционирование относительно родителя */
+            z-index: 1; /* Слой выше, чем боковое меню */
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            gap: 30px; /* Уменьшенные отступы между ссылками */
+            font-size: 20px; /* Размер текста в навигации */
+        }
+
+        nav a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex; /* Делаем ссылки флекс-контейнерами для иконок */
+            align-items: center; /* Вертикальное выравнивание иконок и текста */
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav a i {
+            margin-right: 10px; /* Отступ между иконкой и текстом */
+        }
+
+        nav a:hover {
+            background-color: #000000;
+            color: #fff;
+        }
+
+        /* Стили для контента */
+        main {
+            margin-left: 220px; /* Отступ для бокового меню */
+            padding: 0; /* Убираем отступы */
+        }
+
+        section {
+            padding: 120px 20px;
+            min-height: 100vh;
+            background-size: cover; /* Обеспечивает масштабирование фона */
+            background-position: center; /* Центрирование изображения */
+        }
+
+        /* Блоки */
+        .block-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .block {
+            background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный фон блока */
+            width: 300px;
+            height: 350px; /* Увеличенная высота для кнопки */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .block:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .block-title {
+            background-color: #2600ff;
+            color: white;
+            padding: 10px;
+            font-size: 20px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .block-content {
+            flex-grow: 1; /* Растягивает содержимое */
+            text-align: center;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .buy-button {
+            background-color: #2600ff; /* Цвет кнопки */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 15px; /* Увеличенный отступ для кнопки */
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-top: auto; /* Авто-отступ сверху, чтобы кнопка была внизу блока */
+            width: 100%; /* Занимает всю ширину блока */
+            text-align: center; /* Центрируем текст кнопки */
+        }
+
+        .buy-button:hover {
+            background-color: #000000; /* Цвет кнопки при наведении */
+        }
+
+        /* Загрузка */
+        #loading {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: #222;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            z-index: 9999;
+        }
+
+        /* Адаптивные стили */
+        @media (max-width: 768px) {
+            header {
+                width: 100%; /* Ширина меню на мобильных */
+                height: auto; /* Высота меню */
+                position: relative; /* Относительное позиционирование */
+            }
+
+            .logo {
+                margin: 10px auto; /* Уменьшенный отступ */
+                margin-bottom: 20px; /* Отступ снизу для лого */
+            }
+
+            nav {
+                gap: 10px; /* Уменьшенный отступ между ссылками */
+                font-size: 18px; /* Уменьшенный размер текста */
+            }
+
+            main {
+                margin-left: 0; /* Убираем отступ для мобильных */
+                padding: 20px; /* Увеличиваем отступ для мобильных */
+            }
+
+            section {
+                padding: 60px 20px; /* Уменьшаем отступы для секций на мобильных */
+            }
+
+            .block {
+                width: 100%; /* Занимает всю ширину блока на мобильных */
+                height: auto; /* Авто-высота для блока */
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 28px; /* Уменьшенный размер заголовка для мобильных */
+            }
+
+            h2 {
+                font-size: 24px; /* Уменьшенный размер подзаголовка для мобильных */
+            }
+
+            .block-title {
+                font-size: 18px; /* Уменьшенный размер заголовка блока */
+            }
+
+            .block-content {
+                font-size: 16px; /* Уменьшенный размер контента блока */
+            }
+
+            .buy-button {
+                font-size: 14px; /* Уменьшенный размер кнопки */
+                padding: 10px; /* Уменьшенный отступ для кнопки */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loading">Загрузка...</div>
+
+    <!-- Боковая шапка -->
+    <header>
+        <div class="logo">WAWILON</div>
+        <nav>
+            <a href="#home"><i class="fas fa-home"></i>Главная</a>
+            <a href="#story"><i class="fas fa-book-open"></i>Моя история</a>
+            <a href="#goals"><i class="fas fa-bullseye"></i>Цели</a>
+            <a href="#services"><i class="fas fa-concierge-bell"></i>Услуги</a> <!-- Изменено с "Связаться" на "Услуги" -->
+        </nav>
+    </header>
+
+    <!-- Основной контент -->
+    <main>
+        <!-- Главная -->
+        <section id="home" class="section-home">
+            <h1>Добро пожаловать на сайт WAWILON! <br><br> воспользуйте боковым меню</h1>
+        </section>
+
+        <!-- Моя история -->
+        <section id="story" class="section-story">
+            <h2>Моя история</h2>
+            <div class="block-container">
+                <div class="block">
+                    <div class="block-title">История 1</div><br>
+                    <div class="block-content">Описание первой части истории.</div>
+                </div>
+                <div class="block">
+                    <div class="block-title">История 2</div><br>
+                    <div class="block-content">Описание второй части истории.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Цели -->
+        <section id="goals" class="section-goals">
+            <h2>Цели</h2>
+            <div class="block-container">
+                <div class="block">
+                    <div class="block-title">Цель 1</div><br>
+                    <div class="block-content">Описание цели номер один.</div>
+                </div>
+                <div class="block">
+                    <div class="block-title">Цель 2</div><br>
+                    <div class="block-content">Описание цели номер два.</div>
+                </div>
+                <div class="block">
+                    <div class="block-title">Цель 3</div><br>
+                    <div class="block-content">Описание цели номер три.</div>
+                </div>
+                <div class="block">
+                    <div class="block-title">Цель 4</div><br>
+                    <div class="block-content">Описание цели номер четыре.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Услуги -->
+        <section id="services" class="section-services">
+            <h2>Услуги</h2>
+            <div class="block-container">
+                <div class="block">
+                    <div class="block-title">Услуга 1</div><br>
+                    <div class="block-content">Описание услуги номер один.</div><br>
+                    <a href="https://t.me/wawilon_search" target="_blank"><button class="buy-button">Купить</button></a>
+                </div>
+                <div class="block">
+                    <div class="block-title">Услуга 2</div><br>
+                    <div class="block-content">Описание услуги номер два.</div><br>
+                    <a href="https://t.me/wawilon_search" target="_blank"><button class="buy-button">Купить</button></a>
+                </div>
+                <div class="block">
+                    <div class="block-title">Услуга 3</div><br>
+                    <div class="block-content">Описание услуги номер три.</div><br>
+                    <a href="https://t.me/wawilon_search" target="_blank"><button class="buy-button">Купить</button></a>
+                </div>
+                <div class="block">
+                    <div class="block-title">Услуга 4</div><br>
+                    <div class="block-content">Описание услуги номер четыре.</div><br>
+                    <a href="https://t.me/wawilon_search" target="_blank"><button class="buy-button">Купить</button></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Скролл по клику на ссылку
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                document.getElementById(targetId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Анимация загрузки
+        window.onload = function () {
+            document.getElementById('loading').style.display = 'none';
+        };
+    </script>
+
+</body>
+
+</html>
